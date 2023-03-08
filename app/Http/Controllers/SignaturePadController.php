@@ -34,7 +34,8 @@ class SignaturePadController extends Controller
         // upload photo from camera after saving
         $this->uploadCamera($request);
 
-        return back()->with('success', 'Uploaded Successfully');
+        // return back()->with('success', 'Uploaded Successfully');
+        return redirect('/upload-id')->with('success', 'Uploaded Successfully');
     }
 
     public function uploadCamera($request)
