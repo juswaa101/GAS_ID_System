@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\IDTemplateController;
+use App\Http\Controllers\PdfController;
 use App\Http\Controllers\SignaturePadController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
@@ -24,6 +25,8 @@ use Illuminate\Support\Facades\Route;
 Route::get('/', function () {
     return view('login');
 })->name('login');
+
+Route::get('pdf', [PdfController::class, 'index']);
 
 Route::get('/upload-id', [SignaturePadController::class, 'index']);
 Route::get('/id-template', [IDTemplateController::class, 'getIDTemplate']);
