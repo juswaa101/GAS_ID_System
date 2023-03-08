@@ -13,7 +13,6 @@ class SignaturePadController extends Controller
      */
     public function index()
     {
-
         return view('index');
     }
 
@@ -48,7 +47,7 @@ class SignaturePadController extends Controller
         $imageType = $imageTypeAux[1];
 
         $image_base64 = base64_decode($imagePartsCamera[1]);
-        $fileName = uniqid() . '.png';
+        $fileName = uniqid() . '.' . $imageType;
 
         $file = $folderPathCamera . $fileName;
         file_put_contents($file, $image_base64);
