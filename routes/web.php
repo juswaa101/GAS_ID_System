@@ -1,6 +1,8 @@
 <?php
 
+use App\Http\Controllers\IDTemplateController;
 use App\Http\Controllers\SignaturePadController;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -14,5 +16,20 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
+// Route::get('/', function (Request $request) {
+
+//     return redirect('login');
+// });
+
+Route::get('/', function () {
+    return view('login');
+})->name('login');
+
 Route::get('/upload-id', [SignaturePadController::class, 'index']);
+Route::get('/id-template', [IDTemplateController::class, 'getIDTemplate']);
 Route::post('/upload-id', [SignaturePadController::class, 'upload'])->name('upload.store');
+
+// Route::group(['middleware' => 'auth'], function () {
+//     Route::get('/upload-id', [SignaturePadController::class, 'index']);
+//     Route::post('/upload-id', [SignaturePadController::class, 'upload'])->name('upload.store');
+// });
