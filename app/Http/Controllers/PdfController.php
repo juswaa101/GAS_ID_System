@@ -23,14 +23,15 @@ class PdfController extends Controller
         // $pageWidth = '168';
         // $pageHeight = '270';
 
-        $width = '67.5';
-        $height = '86.35';
+        $width = '54.2';
+        $height = '86.1';
+        $fontStyle = "Arial";
 
         // $this->fpdf->Image(file, x, y, width, height);
 
         // Front Template of ID
         $imageFront = asset('template/FRONT.png');
-        $this->fpdf->SetFont('Arial', 'B', 20);
+        $this->fpdf->SetFont($fontStyle, 'B', 20);
         $this->fpdf->SetTextColor(255, 255, 255);
         $this->fpdf->AddPage("P", [$width, $height]);
         $this->fpdf->Image($profile2, 2, 5, 65, 50);
@@ -38,18 +39,18 @@ class PdfController extends Controller
 
         // Employee Name and Signature
         $this->fpdf->SetTextColor(0, 0, 0);
-        $this->fpdf->SetFont('Arial', 'B', 7);
+        $this->fpdf->SetFont($fontStyle, 'B', 7);
         $this->fpdf->Text(33, 16, "ID-0101");
 
-        $this->fpdf->SetFont('Arial', 'B', 10);
+        $this->fpdf->SetFont($fontStyle, 'B', 10);
         $this->fpdf->SetTextColor(255, 255, 255);
-        $this->fpdf->Text(17, 58, "JOSHUA YAACOUB");
+        $this->fpdf->Text(17, 58, "JOSHUA YAACOUB JOSHUA YAACOUB");
         $this->fpdf->Image($signature, 25, 65, 20, 20);
-        $this->fpdf->SetFont('Arial', 'B', 12);
+        $this->fpdf->SetFont($fontStyle, 'B', 12);
 
         // Back Template Of ID
         $imageBack = asset('template/BACK.jpg');
-        $this->fpdf->SetFont('Arial', 'B', 12);
+        $this->fpdf->SetFont($fontStyle, 'B', 12);
         $this->fpdf->SetTextColor(0, 0, 0);
         $this->fpdf->AddPage("P", [$width, $height]);
         $this->fpdf->Image($imageBack, 0, 0, $width, $height);
@@ -57,7 +58,7 @@ class PdfController extends Controller
 
 
         //Contact Name
-        $this->fpdf->SetFont('Arial', 'B', 8);
+        $this->fpdf->SetFont($fontStyle, 'B', 8);
 
         $this->fpdf->SetTextColor(0,0,0);
         $this->fpdf->Text(20, 10, "JOSHUA YAACOUB");
@@ -73,7 +74,7 @@ class PdfController extends Controller
         // // $this->fpdf->Cell(0, 0, "09053748742", 0, 0, 'C');
 
         // $this->fpdf->Cell(0, 0, "09053748742", 0, 0, 'T');
-        // $this->fpdf->SetFont('Arial', 'B', 12);
+        // $this->fpdf->SetFont($fontStyle, 'B', 12);
         return view($this->fpdf->Output());
     }
 }
