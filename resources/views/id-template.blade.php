@@ -7,6 +7,12 @@
 
 </head>
 
+<style>
+    .zoom:hover{
+        transform: scale(1.5);
+    }
+</style>
+
 <body class="bg-dark">
     <div class="container">
         <div class="row d-flex justify-content-center">
@@ -18,8 +24,20 @@
                     <div class="card-body">
                         <div class="container px-3 pb-3">
                             <div class="row">
-                                <div class="col-4 border">
+                                <div class="col-4">
 
+                                    <div class="container">
+                                        <div class="row mb-3 p-3">
+                                            <div class="zoom">
+                                                <img src="{{ asset("template/FRONT.png")}}" class="img-fluid" >
+                                            </div>
+                                        </div>
+                                        <div class="row p-3">
+                                            <div class="zoom">
+                                                <img src="{{ asset("template/BACK.jpg")}}" class="img-fluid" >
+                                            </div>
+                                        </div>
+                                    </div>
                                 </div>
                                 <div class="col-8">
                                     @if ($message = Session::get('success'))
@@ -29,6 +47,7 @@
                                             <strong>{{ $message }}</strong>
                                         </div>
                                     @endif
+                                    <label for="" class="form-label text-danger my-3">Required*</label>
                                     <form method="POST" action="">
                                         @csrf
                                         <div class="col-md-12">
@@ -36,7 +55,44 @@
                                                 <label class="text text-danger mt-2">{{ $message }}</label>
                                             @enderror
                                             <div class="mb-3">
-                                              <label for="" class="form-label">ID Number</label>
+                                              <label for="" class="form-label">ID Number<span class="text-danger">*</span></label>
+                                              <input type="text"
+                                                class="form-control" name="" id="" placeholder="" readonly>
+                                            </div>
+
+                                            @error('signed')
+                                                <label class="text text-danger mt-2">{{ $message }}</label>
+                                            @enderror
+                                            <div class="mb-3">
+                                              <label for="" class="form-label">RFID<span class="text-danger">*</span></label>
+                                              <input type="text"
+                                                class="form-control" name="" id="" placeholder="" readonly>
+                                            </div>
+
+                                            @error('signed')
+                                                <label class="text text-danger mt-2">{{ $message }}</label>
+                                            @enderror
+                                            <div class="mb-3">
+                                              <label for="" class="form-label">Name<span class="text-danger">*</span></label>
+                                              <input type="text"
+                                                class="form-control" name="" id="" placeholder="" readonly>
+                                            </div>
+
+                                            @error('signed')
+                                                <label class="text text-danger mt-2">{{ $message }}</label>
+                                            @enderror
+                                            <div class="mb-3">
+                                              <label for="" class="form-label">Person in-case of emergency<span class="text-danger">*</span></label>
+                                              <input type="text"
+                                                class="form-control" name="" id="" placeholder="">
+                                            </div>
+
+
+                                            @error('signed')
+                                                <label class="text text-danger mt-2">{{ $message }}</label>
+                                            @enderror
+                                            <div class="mb-3">
+                                              <label for="" class="form-label">Contact Person<span class="text-danger">*</span></label>
                                               <input type="text"
                                                 class="form-control" name="" id="" placeholder="">
                                             </div>
@@ -45,8 +101,8 @@
                                                 <label class="text text-danger mt-2">{{ $message }}</label>
                                             @enderror
                                             <div class="mb-3">
-                                              <label for="" class="form-label">Name</label>
-                                              <input type="text"
+                                              <label for="" class="form-label">Image<span class="text-danger">*</span></label>
+                                              <input type="file"
                                                 class="form-control" name="" id="" placeholder="">
                                             </div>
 
@@ -54,27 +110,8 @@
                                                 <label class="text text-danger mt-2">{{ $message }}</label>
                                             @enderror
                                             <div class="mb-3">
-                                              <label for="" class="form-label">Person in-case of emergency</label>
-                                              <input type="text"
-                                                class="form-control" name="" id="" placeholder="">
-                                            </div>
-
-
-                                            @error('signed')
-                                                <label class="text text-danger mt-2">{{ $message }}</label>
-                                            @enderror
-                                            <div class="mb-3">
-                                              <label for="" class="form-label">Contact Person</label>
-                                              <input type="text"
-                                                class="form-control" name="" id="" placeholder="">
-                                            </div>
-
-                                            @error('signed')
-                                                <label class="text text-danger mt-2">{{ $message }}</label>
-                                            @enderror
-                                            <div class="mb-3">
-                                              <label for="" class="form-label">RFID</label>
-                                              <input type="text"
+                                              <label for="" class="form-label">Signature<span class="text-danger">*</span></label>
+                                              <input type="file"
                                                 class="form-control" name="" id="" placeholder="">
                                             </div>
 
