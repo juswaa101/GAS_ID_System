@@ -38,7 +38,7 @@
                                             </div>
                                         </div>
                                         <div class="row p-3 mt-2">
-                                            <button class="btn btn-secondary" id="clear">Clear Preview</button>
+                                            <button class="btn btn-secondary">Clear Preview</button>
                                         </div>
                                     </div>
                                 </div>
@@ -51,7 +51,8 @@
                                                         class="text-danger">*</span></label>
                                                 <div class="text text-danger" id="id_number_error"></div>
                                                 <input type="text" class="form-control" name="employee_id"
-                                                    id="employee_id" placeholder="Employee ID" readonly>
+                                                    id="employee_id" placeholder="Employee ID"
+                                                    value="{{ request()->segment(2) }}" readonly>
                                             </div>
 
                                             <div class="mb-3">
@@ -59,7 +60,7 @@
                                                         class="text-danger">*</span></label>
                                                 <div class="text text-danger" id="rfid_number_error"></div>
                                                 <input type="text" class="form-control" name="rfid" id="rfid"
-                                                    placeholder="RFID" readonly>
+                                                    value="{{ request()->segment(3) }}" placeholder="RFID" readonly>
                                             </div>
 
                                             <div class="mb-3">
@@ -67,7 +68,17 @@
                                                         class="text-danger">*</span></label>
                                                 <div class="text text-danger" id="name_error"></div>
                                                 <input type="text" class="form-control" name="name" id="name"
-                                                    placeholder="Full Name" readonly>
+                                                    value="{{ request()->segment(4) }}" placeholder="Full Name"
+                                                    readonly>
+                                            </div>
+
+                                            <div class="mb-3">
+                                                <label for="" class="form-label">Designate<span
+                                                        class="text-danger">*</span></label>
+                                                <div class="text text-danger" id="designate_error"></div>
+                                                <input type="text" class="form-control" name="designate"
+                                                    id="designate" value="{{ request()->segment(5) }}"
+                                                    placeholder="Designate/Position" readonly>
                                             </div>
 
                                             <div class="mb-3">
@@ -90,7 +101,7 @@
                                                     class="text-danger">*</span></label></label>
                                             <div class="text text-danger" id="sig_error"></div>
                                             <br />
-                                            <div id="sig"></div>
+                                            <div id="sig" style="background-color: black;"></div>
                                             <br />
                                             <small class="text-muted">For best use, please use digital pad for
                                                 e-signature</small>
@@ -107,7 +118,7 @@
                                             <input type="button" value="Take Snapshot"
                                                 class="btn btn-primary btn-sm mt-3" onClick="take_snapshot()"
                                                 id="snap">
-                                            <input type="hidden" name="image" class="image-tag">
+                                            <input type="hidden" name="image" class="image-tag" id="image">
                                             <div class="col-md-6">
                                                 <div id="results" class="mt-3">Your captured image will appear
                                                     here...</div>
@@ -122,7 +133,7 @@
                                                 <div class="col-md-6 mt-3">
                                                     <label class="">ID Font Size: </label>
                                                     <select class="form-control" name="font_size" id="font_size">
-                                                        @for ($i = 10; $i <= 30; $i+=2)
+                                                        @for ($i = 10; $i <= 30; $i += 2)
                                                             <option value="{{ $i }}">{{ $i }}
                                                             </option>
                                                         @endfor
@@ -131,6 +142,8 @@
                                             </div>
                                             <button class="btn btn-success btn-sm mt-3" id="generateId"
                                                 type="button">Generate</button>
+                                            <button class="btn btn-primary btn-sm mt-3 d-none" id="viewId"
+                                                type="button">View My ID</button>
                                         </div>
                                         <br />
                                     </form>
@@ -191,7 +204,10 @@
         syncField: '#signature64',
         syncFormat: 'PNG',
         background: 'transparent',
-        color: '#000000',
+        color: '#FFFFFF', // #000000
+        change: function(event, ui) {
+            $('#sig_error').html("");
+        }
     });
     $('#clear').click(function(e) {
         e.preventDefault();
@@ -203,7 +219,8 @@
         width: 490,
         height: 350,
         image_format: 'jpeg',
-        jpeg_quality: 90
+        jpeg_quality: 90,
+        fps: 60
     });
 
     Webcam.attach('#my_camera');
@@ -234,6 +251,10 @@
             $('#name_error').html("");
         });
 
+        $('#designate').keyup(function(e) {
+            $('#designate_error').html("");
+        });
+
         $('#person_emergency').keyup(function(e) {
             $('#emer_error').html("");
         });
@@ -242,7 +263,7 @@
             $('#contact_error').html("");
         });
 
-        $('#signature64').keyup(function(e) {
+        $('#signature64').change(function(e) {
             $('#sig_error').html("");
         });
 
@@ -281,6 +302,9 @@
                         if (res.error.name != null) {
                             $('#name_error').html(res.error.name);
                         }
+                        if (res.error.designate != null) {
+                            $('#designate_error').html(res.error.designate);
+                        }
                         if (res.error.person_emergency) {
                             $('#emer_error').html(res.error.person_emergency);
                         }
@@ -299,15 +323,50 @@
                         $('#id_number_error').html("");
                         $('#rfid_number_error').html("");
                         $('#name_error').html("");
+                        $('#designate_error').html("");
                         $('#emer_error').html("");
                         $('#contact_error').html("");
                         $('#sig_error').html("");
                         $('#image_error').html("");
+                        // $('#viewId').removeClass("d-none");
                         new swal({
                             title: 'Success',
-                            text: 'ID Generated Success',
-                            icon: 'success'
-                        })
+                            text: 'Click the button below to view your ID',
+                            icon: 'success',
+                            allowOutsideClick: false,
+                            allowEscapeKey: false,
+                        }).then((result) => {
+                            if (result.isConfirmed) {
+                                $.ajax({
+                                    type: "get",
+                                    url: "{{ route('generate.pdf') }}",
+                                    data: {
+                                        employee_id: $('#employee_id')
+                                            .val(),
+                                        name: $('#name').val(),
+                                        designate: $('#designate').val(),
+                                        person_emergency: $(
+                                            '#person_emergency').val(),
+                                        contact_person: $('#contact_person')
+                                            .val(),
+                                        rfid: $('#rfid').val(),
+                                        font_style: $('#font_style').val(),
+                                        font_size: $('#font_size').val(),
+                                        image: $('#image').val(),
+                                        signature: $('#signature64').val(),
+                                    },
+                                    success: function(response) {
+                                        // clear fields after generating an id
+                                        $('#person_emergency').val('');
+                                        $('#contact_person').val('')
+                                        $('#image').val('');
+                                        $('#signature64').val('');
+                                        sig.signature('clear');
+                                        document.getElementById('results').innerHTML ="";
+                                    }
+                                });
+                            }
+                        });
                     }
                 },
                 error: function() {
