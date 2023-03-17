@@ -6,7 +6,7 @@
 
     $(document).ready(function() {
         $('#content').fadeIn('slow');
-        $('#records').DataTable();
+        let tableName = $('#records').DataTable();
 
         $.ajaxSetup({
             headers: {
@@ -27,6 +27,7 @@
 
         $('#importBtn').click(function(e) {
             e.preventDefault();
+            tableName.clear().draw();
             $('#importBtn').prop('disabled', true);
             $('#importBtn').html("<i class='fa fa-spinner fa-spin'></i> Loading");
             let csvForm = $("#importCsv")[0];
@@ -47,7 +48,6 @@
                         $('#error').addClass('d-none');
                         $('#error').html("");
                         for (const [key, value] of Object.entries(res.data)) {
-                            let tableName = $('#records').DataTable();
                             const tr = $(
                                 '<tr>' +
                                 '<td>' + value[0] + '</td>' +
@@ -57,7 +57,8 @@
                                 '<td>' + value[4] + '</td>' +
                                 '<td scope="row">' +
                                 '<a class="btn btn-primary" target="_blank"' +
-                                'href ="id-template/'+ value[0] +'/' + value[1] +'/' + value[2] +'/' + value[3] +'/' + value[4] +
+                                'href ="id-template/' + value[0] + '/' + value[1] +
+                                '/' + value[2] + '/' + value[3] + '/' + value[4] +
                                 '" role = "button">Generate</a></td > ' +
                                 '</tr>'
                             );
