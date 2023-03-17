@@ -5,145 +5,194 @@
     @include('components.scripts')
     <link rel="stylesheet" href="{{ asset('css/index.css') }}">
     <meta name="csrf-token" content="{{ csrf_token() }}">
-    <style>
-        .zoom:hover {
-            transform: scale(1.5);
-        }
-    </style>
 </head>
 
 <body class="bg-dark">
-    <div class="container">
+    @include('components.loader')
+    <div class="container-fluid" id="id_form">
+        <div class="row">
+            <div class="col-md-4 mx-auto">
+                <img src="{{ asset('images/Final_Logo_Horizontal_White-1.png') }}" height="200px" width="550px"
+                    class="img-fluid">
+            </div>
+        </div>
         <div class="row d-flex justify-content-center">
             <div class="col-md-8 mt-5">
+                <h1 class="text-light text-center">ID FORM</h1>
                 <div class="card">
-                    <div class="card-header text-center">
-                        <h5>Global Agility Solutions ID - System</h5>
-                    </div>
                     <div class="card-body">
                         <div class="container px-3 pb-3">
                             <div class="row">
-                                <div class="col-4">
-                                    <div class="container">
-                                        <div class="row mb-3 p-3">
-                                            <div class="zoom">
-                                                <img src="{{ asset('template/FRONT.png') }}" id="front_img"
-                                                    class="img-fluid">
-                                            </div>
-                                        </div>
-                                        <div class="row p-3">
-                                            <div class="zoom">
-                                                <img src="{{ asset('template/BACK.jpg') }}" id="back_img"
-                                                    class="img-fluid">
-                                            </div>
-                                        </div>
-                                        <div class="row p-3 mt-2">
-                                            <button class="btn btn-secondary">Clear Preview</button>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="col-8">
+                                <div class="col-12 mx-auto">
                                     <form id="idForm">
                                         <label for="" class="form-label text-danger my-3">Required*</label>
-                                        <div class="col-md-12">
-                                            <div class="mb-3">
+                                        <div class="row">
+                                            <div class="col-md-4 mb-3">
                                                 <label for="" class="form-label">ID Number<span
                                                         class="text-danger">*</span></label>
                                                 <div class="text text-danger" id="id_number_error"></div>
                                                 <input type="text" class="form-control" name="employee_id"
                                                     id="employee_id" placeholder="Employee ID"
-                                                    value="{{ request()->segment(2) }}" readonly>
+                                                    value="{{ request()->segment(2) }}">
                                             </div>
 
-                                            <div class="mb-3">
-                                                <label for="" class="form-label">RFID<span
-                                                        class="text-danger">*</span></label>
-                                                <div class="text text-danger" id="rfid_number_error"></div>
-                                                <input type="text" class="form-control" name="rfid" id="rfid"
-                                                    value="{{ request()->segment(3) }}" placeholder="RFID" readonly>
-                                            </div>
-
-                                            <div class="mb-3">
+                                            <div class="col-md-4 mb-3">
                                                 <label for="" class="form-label">Name<span
                                                         class="text-danger">*</span></label>
                                                 <div class="text text-danger" id="name_error"></div>
                                                 <input type="text" class="form-control" name="name" id="name"
-                                                    value="{{ request()->segment(4) }}" placeholder="Full Name"
-                                                    readonly>
+                                                    value="{{ request()->segment(3) }}" placeholder="Full Name">
                                             </div>
 
-                                            <div class="mb-3">
+                                            <div class="col-md-4 mb-3">
                                                 <label for="" class="form-label">Designate<span
                                                         class="text-danger">*</span></label>
                                                 <div class="text text-danger" id="designate_error"></div>
                                                 <input type="text" class="form-control" name="designate"
-                                                    id="designate" value="{{ request()->segment(5) }}"
-                                                    placeholder="Designate/Position" readonly>
+                                                    id="designate" value="{{ request()->segment(4) }}"
+                                                    placeholder="Designate/Position">
                                             </div>
 
-                                            <div class="mb-3">
+                                            <div class="col-md-4 mb-3">
                                                 <label for="" class="form-label">Person in-case of
                                                     emergency<span class="text-danger">*</span></label>
                                                 <div class="text text-danger" id="emer_error"></div>
                                                 <input type="text" class="form-control" name="person_emergency"
-                                                    id="person_emergency" placeholder="">
+                                                    id="person_emergency" placeholder="Emergency Person"
+                                                    value="{{ request()->segment(5) }}">
                                             </div>
 
-                                            <div class="mb-3">
+                                            <div class="col-md-4 mb-3">
                                                 <label for="" class="form-label">Contact Person<span
                                                         class="text-danger">*</span></label>
                                                 <div class="text text-danger" id="contact_error"></div>
                                                 <input type="text" class="form-control" name="contact_person"
-                                                    id="contact_person" placeholder="">
+                                                    id="contact_person" placeholder="Contact Person"
+                                                    value="{{ request()->segment(6) }}">
                                             </div>
 
-                                            <label class="" for="">Signature<span
-                                                    class="text-danger">*</span></label></label>
-                                            <div class="text text-danger" id="sig_error"></div>
-                                            <br />
-                                            <div id="sig" style="background-color: black;"></div>
-                                            <br />
-                                            <small class="text-muted">For best use, please use digital pad for
-                                                e-signature</small>
-                                            <br />
-                                            <button id="clear" class="btn btn-danger btn-sm mt-3">Clear
-                                                Signature</button>
-                                            <textarea id="signature64" name="signature" style="display: none"></textarea>
-                                            <br />
-                                            <label class="mt-5" for="">Work Image<span
-                                                    class="text-danger">*</span></label></label>
-                                            <div class="text text-danger" id="image_error"></div>
-                                            <div id="my_camera" class="mt-2 w-100"></div>
-                                            <br />
-                                            <input type="button" value="Take Snapshot"
-                                                class="btn btn-primary btn-sm mt-3" onClick="take_snapshot()"
-                                                id="snap">
-                                            <input type="hidden" name="image" class="image-tag" id="image">
-                                            <div class="col-md-6">
-                                                <div id="results" class="mt-3">Your captured image will appear
-                                                    here...</div>
-                                            </div>
-                                            <div class="row">
-                                                <div class="col-md-6 mt-3">
-                                                    <label class="">ID Font Style: </label>
-                                                    <select class="form-control" id="font_style" name="font_style"
-                                                        onChange="return fontChange();">
-                                                    </select>
+                                            <div class="col-md-8 mx-auto">
+                                                <div class="mb-3 w-50 mx-auto">
+                                                    <label class="" for="">Signature<span class="text-danger">*</span></label>
+                                                    <div class="text text-danger" id="sig_error"></div>
+                                                    <br />
+                                                    <div id="sig" style="background-color: black; width:100%; height: 150px;">
+                                                    </div>
+                                                    <br />
+                                                    <small class="text-muted">For best use, please use digital pad for
+                                                        e-signature</small>
+                                                    <br />
+                                                    <button id="clear" class="btn btn-danger btn-sm mt-3">Clear
+                                                        Signature</button>
+                                                    <textarea id="signature64" name="signature" style="display: none"></textarea>
+                                                    <br />
                                                 </div>
-                                                <div class="col-md-6 mt-3">
-                                                    <label class="">ID Font Size: </label>
-                                                    <select class="form-control" name="font_size" id="font_size">
-                                                        @for ($i = 10; $i <= 30; $i += 2)
-                                                            <option value="{{ $i }}">{{ $i }}
-                                                            </option>
-                                                        @endfor
-                                                    </select>
+
+
+                                                <div class="row">
+                                                    <label class="mt-5" for="">Work Image<span
+                                                            class="text-danger">*</span></label>
+
+                                                    <div class="col-12 text-center mx-auto">
+                                                        <div class="row d-flex align-content-center">
+                                                            <div class="col-12 mx-auto">
+                                                                <div id="wrap_video">
+
+                                                                    <div id="video_box">
+
+                                                                        <div id="video_overlays">
+
+                                                                            <img id="image_overlay"
+                                                                                src="{{ asset('images/circle.png') }}"
+                                                                                alt="" srcset=""
+                                                                                class=""
+                                                                                style="height: 376px; width: 500px;"
+                                                                                >
+
+                                                                        </div>
+                                                                        <div>
+                                                                            <div id="my_camera" class="mt-2 w-100">
+                                                                            </div>
+
+                                                                        </div>
+                                                                    </div>
+
+                                                                </div>
+
+                                                                <div class="text text-danger" id="image_error"></div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <style>
+                                                        #my_camera video {
+                                                            max-width: 100%;
+                                                            max-height: 100%;
+                                                        }
+
+                                                        #results img {
+                                                            max-width: 100%;
+                                                            max-height: 100%;
+                                                        }
+
+                                                        #video_box {
+                                                            position: relative;
+                                                        }
+
+                                                        #video_overlays {
+                                                            position: absolute;
+                                                            opacity: .70;
+                                                            /* z-index: 300000; */
+                                                            /* top: 80px;
+                                                            left: 0;
+                                                            text-align: center; */
+                                                            top: 50%;
+                                                            left: 50%;
+                                                            transform: translate(-50%, -50%);
+                                                        }
+                                                    </style>
+
+                                                    <small class="text-muted">If you want to retake your shot, click
+                                                        the
+                                                        Take Snapshot Button again</small>
+                                                    <br>
+                                                    <div class="col-12">
+                                                        <input type="button" value="Take Snapshot"
+                                                            class="btn btn-primary btn-sm mt-3"
+                                                            onClick="take_snapshot()" id="snap">
+                                                    </div>
+                                                    <div class="col-12 text-center">
+                                                        <input type="hidden" name="image" class="image-tag img-fluid"
+                                                            id="image">
+                                                        <div class="col-md-12 text-center mx-auto">
+                                                            <div id="results" class="mt-3 w-100">Your captured image
+                                                                will appear
+                                                                here...</div>
+                                                        </div>
+                                                    </div>
+
                                                 </div>
+
+                                                <div class="row">
+                                                    <div class="col-md-6 mt-3">
+                                                        <label class="">ID Font Style: </label>
+                                                        <select class="form-select" id="font_style" name="font_style"
+                                                            onChange="return fontChange();">
+                                                        </select>
+                                                    </div>
+                                                    <div class="col-md-6 mt-3">
+                                                        <label class="">ID Font Size: </label>
+                                                        <select class="form-select" name="font_size" id="font_size">
+                                                            @for ($i = 10; $i <= 30; $i += 2)
+                                                                <option value="{{ $i }}">
+                                                                    {{ $i }}
+                                                                </option>
+                                                            @endfor
+                                                        </select>
+                                                    </div>
+                                                </div>
+                                                <button class="btn btn-success mt-3" id="generateId"
+                                                    type="button">Generate</button>
                                             </div>
-                                            <button class="btn btn-success btn-sm mt-3" id="generateId"
-                                                type="button">Generate</button>
-                                            <button class="btn btn-primary btn-sm mt-3 d-none" id="viewId"
-                                                type="button">View My ID</button>
                                         </div>
                                         <br />
                                     </form>
@@ -154,18 +203,28 @@
                 </div>
             </div>
         </div>
-        <button onclick="topFunction()" class="btn btn-warning float-end mb-5" id="btnTop" title="Go to top">
-            <i class="fas fa-caret-up"></i>
-        </button>
+        <div class="dropup position-absolute bottom-0 end-0 rounded-circle m-5 position-sticky float-end">
+            <button type="button" class="btn btn-success btn-lg hide-toggle mb-2" data-bs-toggle="dropdown"
+                aria-expanded="false" aria-haspopup="true">
+                <i class="fas fa-ellipsis-h"></i>
+            </button>
+            <ul class="dropdown-menu">
+                <li>
+                    <a class="dropdown-item" href="#" onclick="topFunction()" id="btnTop">Top</a>
+                </li>
+                <li>
+                    <a class="dropdown-item" href="/">Back to Home</a>
+                </li>
+            </ul>
+        </div>
 </body>
 
 </html>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/2.1.3/TweenLite.min.js"></script>
 <script type="text/javascript">
-    var fonts = ["Montez", "Lobster", "Josefin Sans", "Shadows Into Light", "Pacifico", "Amatic SC", "Orbitron",
-        "Rokkitt", "Righteous", "Dancing Script", "Bangers", "Chewy", "Sigmar One", "Architects Daughter",
-        "Abril Fatface", "Covered By Your Grace", "Kaushan Script", "Gloria Hallelujah", "Satisfy", "Lobster Two",
-        "Comfortaa", "Cinzel", "Courgette"
+    var fonts = [
+        "Calibri Light", "Arial", "Courier", "Helvetica",
+        "Times",
     ];
     var string = "";
     var select = document.getElementById("font_style")
@@ -216,8 +275,8 @@
     });
 
     Webcam.set({
-        width: 490,
-        height: 350,
+        width: 500,
+        height: 450,
         image_format: 'jpeg',
         jpeg_quality: 90,
         fps: 60
@@ -228,11 +287,17 @@
     function take_snapshot() {
         Webcam.snap(function(data_uri) {
             $(".image-tag").val(data_uri);
-            document.getElementById('results').innerHTML = '<img src="' + data_uri + '"/>';
+            document.getElementById('results').innerHTML = '<img src="' + data_uri + '" class=\'img-fluid w-50\'/>';
         });
     }
 
-    $(function() {
+    $(window).on("load", () => {
+        $("#loading").fadeOut('slow');
+        $('#id_form').removeClass('d-none');
+        $('#content').fadeIn('slow');
+    });
+
+    $(document).ready(function() {
         $.ajaxSetup({
             headers: {
                 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
@@ -241,10 +306,6 @@
 
         $('#employee_id').keyup(function(e) {
             $('#id_number_error').html("");
-        });
-
-        $('#rfid').keyup(function(e) {
-            $('#rfid_number_error').html("");
         });
 
         $('#name').keyup(function(e) {
@@ -296,9 +357,6 @@
                         if (res.error.employee_id != null) {
                             $('#id_number_error').html(res.error.employee_id);
                         }
-                        if (res.error.rfid != null) {
-                            $('#rfid_number_error').html(res.error.rfid);
-                        }
                         if (res.error.name != null) {
                             $('#name_error').html(res.error.name);
                         }
@@ -321,14 +379,12 @@
 
                     if (res.status === 200) {
                         $('#id_number_error').html("");
-                        $('#rfid_number_error').html("");
                         $('#name_error').html("");
                         $('#designate_error').html("");
                         $('#emer_error').html("");
                         $('#contact_error').html("");
                         $('#sig_error').html("");
                         $('#image_error').html("");
-                        // $('#viewId').removeClass("d-none");
                         new swal({
                             title: 'Success',
                             text: 'Click the button below to view your ID',
@@ -337,32 +393,48 @@
                             allowEscapeKey: false,
                         }).then((result) => {
                             if (result.isConfirmed) {
+
                                 $.ajax({
                                     type: "get",
                                     url: "{{ route('generate.pdf') }}",
                                     data: {
-                                        employee_id: $('#employee_id')
-                                            .val(),
+                                        employee_id: $('#employee_id').val(),
                                         name: $('#name').val(),
                                         designate: $('#designate').val(),
-                                        person_emergency: $(
-                                            '#person_emergency').val(),
-                                        contact_person: $('#contact_person')
-                                            .val(),
-                                        rfid: $('#rfid').val(),
+                                        person_emergency: $('#person_emergency').val(),
+                                        contact_person: $('#contact_person').val(),
                                         font_style: $('#font_style').val(),
                                         font_size: $('#font_size').val(),
-                                        image: $('#image').val(),
-                                        signature: $('#signature64').val(),
+                                        sig_path:  "upload/e-signature/" + $('#employee_id').val()+ ".png",
+                                        img_path: "upload/profile/" + $('#employee_id').val()+ ".jpeg",
+                                        // image: $('#image').val(),
+                                        // signature: $('#signature64').val(),
                                     },
-                                    success: function(response) {
+                                    responseType: 'arraybuffer',
+                                    success: function(data) {
                                         // clear fields after generating an id
-                                        $('#person_emergency').val('');
-                                        $('#contact_person').val('')
-                                        $('#image').val('');
-                                        $('#signature64').val('');
-                                        sig.signature('clear');
-                                        document.getElementById('results').innerHTML ="";
+                                        // window.open(
+                                        //     "/pdf?employee_id=" + $('#employee_id').val() +
+                                        //     "&name=" + $('#name').val() +
+                                        //     "&designate=" + $('#designate').val() +
+                                        //     "&person_emergency=" + $('#person_emergency').val() +
+                                        //     "&contact_person=" + $('#contact_person').val() +
+                                        //     "&font_style=" + $('#font_style').val() +
+                                        //     "&font_size=" + $('#font_size').val() +
+                                        //     "&image=" + $('#image').val() +
+                                        //     "&signature=" + $('#signature64').val()
+                                        // );
+                                        window.open(
+                                            "/pdf?employee_id=" + $('#employee_id').val() +
+                                            "&name=" + $('#name').val() +
+                                            "&designate=" + $('#designate').val() +
+                                            "&person_emergency=" + $('#person_emergency').val() +
+                                            "&contact_person=" + $('#contact_person').val() +
+                                            "&font_style=" + $('#font_style').val() +
+                                            "&font_size=" + $('#font_size').val() +
+                                            "&img_path=" + "upload/profile/" + $('#employee_id').val()+ ".jpeg" +
+                                            "&sig_path=" + "upload/e-signature/" + $('#employee_id').val()+ ".png"
+                                        );
                                     }
                                 });
                             }
@@ -376,7 +448,7 @@
                         title: 'Error',
                         text: 'Something Went Wrong While Generating Your Id... Please Try Again!',
                         icon: 'error'
-                    });
+                    }).then(() => location.reload());
                 }
             });
         });

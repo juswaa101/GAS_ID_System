@@ -17,16 +17,12 @@ use Illuminate\Support\Facades\Route;
 | be assigned to the "web" middleware group. Make something great!
 |
 */
-// Route::get('/', function () {
-//     return view('login');
-// })->name('login');
+
 
 Route::get('/', [homeController::class, 'index']);
-// Route::get('/{id}/{name}/{}', [homeController::class, 'index']);
-
 Route::post('/', [homeController::class, 'importFile'])->name('csv.import');
-
 Route::get('/pdf', [PdfController::class, 'index'])->name('generate.pdf');
 
-Route::get('/id-template/{id}/{rfid}/{name}/{designate}', [IDTemplateController::class, 'getIDTemplate']);
+// ID Template Routes
+Route::get('/id-template/{id}/{name}/{designate}/{contact_person}/{contact_number}', [IDTemplateController::class, 'getIDTemplate']);
 Route::post('/id-template', [IDTemplateController::class, 'upload'])->name('upload.template');

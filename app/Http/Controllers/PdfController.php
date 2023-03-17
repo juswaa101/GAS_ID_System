@@ -17,54 +17,67 @@ class PdfController extends Controller
 
     public function index(Request $request)
     {
-        $signature = public_path($this->convertSignature($request));
-        $profile = public_path($this->convertImage($request));
-        $this->fpdf->AddFont('Calibril', '', 'calibril.php');
+        $signature = public_path($request->sig_path);
+        $profile = public_path($request->img_path);
 
-        // $width = '54.2378';
-        // $height = '86.1';
+        $this->fpdf->AddFont('calibri light', '', 'calibril.php');
 
         define("pageWidth", "54.2378");
         define("pageHeight", "86.1");
 
-        $fontStyle = 'Calibril';
-
+        $fontStyle = $request->font_style;
         $IDNumber = $request->employee_id;
-        $fullName = $request->name;
+        $fullName = iconv('UTF-8', 'windows-1252', html_entity_decode($request->name));
         $designation = $request->designate;
-        $contactPerson = $request->person_emergency;
+        $contactPerson =  iconv('UTF-8', 'windows-1252', html_entity_decode($request->person_emergency));
         $contactNumber = $request->contact_person;
-
-
-        // $this->fpdf->Image(file, x, y, width, height);
 
         // Front Template of ID
         $imageFront = public_path('template/FRONT.png');
         $this->fpdf->SetFont($fontStyle, '', 20);
         $this->fpdf->SetTextColor(255, 255, 255);
         $this->fpdf->AddPage("P", [pageWidth, pageHeight]);
-        $this->fpdf->Image($profile, -4.5, 5, 65, 50);
+
+        //Image
+
+        // $this->fpdf->Image($profile, 5.5, 18, 45, 35); //new
+
+
+        $this->fpdf->Image($profile, -5, 17, 60, 50);
+
         $this->fpdf->Image($imageFront, 0, 0, pageWidth, pageHeight);
 
+
+
+
         //ID
-        $this->fpdf->SetTextColor(0, 0, 0);
-        $this->fpdf->SetFont('Calibril', '', 6.77); // Regular style
-        $this->fpdf->Text(27, 15.9, $IDNumber);
+        $this->fpdf->SetTextColor(29, 85, 108);
+        $this->fpdf->SetFont($fontStyle, '', 6.77); // Regular style
+        $this->fpdf->Text(27, 15.8, $IDNumber);
 
         //Name
-        $this->fpdf->SetFont($fontStyle, '', 12);
+        $this->fpdf->SetFont($fontStyle, '', $this->setFontSize(mb_strlen($fullName)));
         $this->fpdf->SetTextColor(255, 255, 255);
-        $this->fpdf->Text(10, 59, $fullName);
+        $this->fpdf->SetY(55);
+        $this->fpdf->SetX(0);
+        $this->fpdf->Cell(pageWidth, 5, strtoupper($fullName), 0, 0, 'C');
 
 
         //Designation
-        $this->fpdf->SetFont($fontStyle, '', 11);
-        $this->fpdf->SetTextColor(255, 255, 255);
-        $this->fpdf->Text(20, 63.5, $designation);
+        $check_designation = strtolower($designation);
+        if ($check_designation != "data entry specialist") {
+            $this->fpdf->SetFont($fontStyle, '', $this->setFontSize(mb_strlen($fullName)) - 1);
+            $this->fpdf->SetTextColor(255, 255, 255);
+            $this->fpdf->SetY(60);
+            $this->fpdf->SetX(0);
+            $this->fpdf->Cell(pageWidth, 5, $designation, 0, 0, 'C');
+        }
 
         //Signature
         $this->fpdf->SetFillColor(255, 255, 255);
-        $this->fpdf->Image($signature, 18, 67, 20, 20);
+
+        // $this->fpdf->Image($signature, 18, 67, 20, 20);
+        $this->fpdf->Image($signature, 10, 69, 35, 10);
         $this->fpdf->SetFont($fontStyle, '', 12);
 
         // Back Template Of ID
@@ -75,64 +88,47 @@ class PdfController extends Controller
         $this->fpdf->Image($imageBack, 0, 0, pageWidth, pageHeight);
         $this->fpdf->Ln(15);
 
-
         //Contact Person
-        $this->fpdf->SetFont($fontStyle, '', 9);
-        $this->fpdf->SetTextColor(0, 0, 0);
-        $this->fpdf->Text(16, 9, $contactPerson);
+        $this->fpdf->SetFont($fontStyle, '', $this->setFontSize_back(mb_strlen($contactPerson)));
+        $this->fpdf->SetTextColor(29, 85, 108);
+
+        $this->fpdf->SetY(6);
+        $this->fpdf->SetX(0);
+        $this->fpdf->Cell(pageWidth, 5, strtoupper($contactPerson), 0, 0, 'C');
 
         //Contact Number
-        $this->fpdf->SetTextColor(0, 0, 0);
-        $this->fpdf->Text(19, 13, $contactNumber);
+        $this->fpdf->SetFont($fontStyle, '', $this->setFontSize_back(mb_strlen($contactPerson)));
+        $this->fpdf->SetTextColor(29, 85, 108);
+        $this->fpdf->SetY(9);
+        $this->fpdf->SetX(0);
+        $this->fpdf->Cell(pageWidth, 6, $contactNumber, 0, 0, 'C');
 
-        // // Contact Name
-        // $this->fpdf->Cell(0, 0, "Joshua Yaacoub", 0, 0, 'C');
-        // $this->fpdf->Ln(10);
-
-        // // Contact Number
-        // // $this->fpdf->Cell(width, height, text, border, ln, align);
-        // // $this->fpdf->Cell(0, 0, "09053748742", 0, 0, 'C');
-
-        // $this->fpdf->Cell(0, 0, "09053748742", 0, 0, 'T');
-        // $this->fpdf->SetFont($fontStyle, 'B', 12);
-        return response($this->fpdf->Output(), 200)->header('Content-type', 'application/pdf');
+        return redirect()->to($this->fpdf->Output());
     }
 
-    public function convertImage($request)
+    public function setFontSize(int $length)
     {
-        $imgCamera = $request->image;
-
-        $folderPathCamera = "upload/profile/";
-
-        $imagePartsCamera = explode(";base64,", $imgCamera);
-
-        $imageTypeAux = explode("image/", $imagePartsCamera[0]);
-
-        $imageType = $imageTypeAux[1];
-
-        $image_base64 = base64_decode($imagePartsCamera[0]);
-
-        $fileName = $request->employee_id . '.' . $imageType;
-
-        $file = $folderPathCamera . $fileName;
-
-        return $file;
+        if ($length >= 20 && $length <= 24) {
+            return 11;
+        } elseif ($length >= 25 && $length <= 29) {
+            return 10;
+        } elseif ($length >= 30) {
+            return 9;
+        } else {
+            return 12;
+        }
     }
 
-    public function convertSignature($request)
+    public function setFontSize_back(int $length)
     {
-        $folderPath = 'upload/e-signature/';
-
-        $image_parts = explode(";base64,", $request->signature);
-
-        $image_type_aux = explode("image/", $image_parts[0]);
-
-        $image_type = $image_type_aux[1];
-
-        $image_base64 = base64_decode($image_parts[0]);
-
-        $file = $folderPath . $request->employee_id . '.' . $image_type;
-
-        return $file;
+        if ($length >= 20 && $length <= 24) {
+            return 10;
+        } elseif ($length >= 25 && $length <= 29) {
+            return 8;
+        } elseif ($length >= 30) {
+            return 7;
+        } else {
+            return 9;
+        }
     }
 }
