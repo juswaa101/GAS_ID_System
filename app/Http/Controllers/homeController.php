@@ -25,7 +25,7 @@ class homeController extends Controller
 
             // check if file is csv or excel file
             if (!in_array($extension, array("csv", "xlsx", "xls"))) {
-                return back()->with('error', '.csv, .xlsx, .xls are only file extension that is allowed');
+                return response()->json(['error' => '.csv, .xlsx, .xls are only file extension that is allowed', 'status' => 400]);
             }
 
             $tempPath = $file->getRealPath();
@@ -33,7 +33,7 @@ class homeController extends Controller
 
             // check if file is greater than 10mb
             if ($fileSize > 10000000) {
-                return back()->with('error', 'File is too big, please upload less than 10mb');
+                return response()->json(['error' => 'File is too big, please upload less than 10mb', 'status' => 400]);
             }
 
             //Where uploaded file will be stored on the server
@@ -66,10 +66,9 @@ class homeController extends Controller
             //Close after reading
             fclose($file);
 
-            // return view('index')->with('data', $importData_arr);
-            return redirect("/")->with("data", $importData_arr);
+            return response()->json(['data' => $importData_arr, 'status' => 200]);
         } else {
-            return back()->with('error', 'Upload File is Required');
+            return response()->json(['error' => 'Upload File is Required', 'status' => 400]);
         }
     }
 }

@@ -39,16 +39,9 @@ class PdfController extends Controller
         $this->fpdf->AddPage("P", [pageWidth, pageHeight]);
 
         //Image
-
-        // $this->fpdf->Image($profile, 5.5, 18, 45, 35); //new
-
-
-        $this->fpdf->Image($profile, -5, 17, 60, 50);
-
+        $this->fpdf->Image($profile, 5.5, 18, 45, 35); //new
+        // $this->fpdf->Image($profile, -5, 17, 60, 50);
         $this->fpdf->Image($imageFront, 0, 0, pageWidth, pageHeight);
-
-
-
 
         //ID
         $this->fpdf->SetTextColor(29, 85, 108);

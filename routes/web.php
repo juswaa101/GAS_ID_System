@@ -3,8 +3,6 @@
 use App\Http\Controllers\homeController;
 use App\Http\Controllers\IDTemplateController;
 use App\Http\Controllers\PdfController;
-use App\Http\Controllers\SignaturePadController;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
 /*

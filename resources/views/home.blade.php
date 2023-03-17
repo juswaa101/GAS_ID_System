@@ -5,8 +5,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <meta name="csrf-token" content="{{ csrf_token() }}">
     @include('components.scripts')
-    <link rel="stylesheet" href="{{ asset('css/index.css') }}">
 </head>
 
 <body class="bg-dark">
@@ -36,23 +36,19 @@
                         <div class="row">
                             <div class="col-md-6 mx-auto">
                                 <div class="col-12">
-                                    <form method="POST" action="{{ route('csv.import') }}"
-                                        enctype="multipart/form-data">
-                                        @csrf
+                                    <form id="importCsv">
                                         <div class="mb-3">
-                                            <label for="" class="form-label">Import File</label><br/>
+                                            <label for="" class="form-label">Import File</label><br />
                                             <input type="file" class="form-control" name="upload_file">
-                                            <small class="text-muted mt-2">Note: Use the following format below in the table, click download format</small>
-                                            @if(Session::has('error'))
-                                                <div class="text text-danger mt-2">
-                                                    {{ Session::get('error') }}
-                                                </div>
-                                            @endif
+                                            <small class="text-muted mt-2">Note: Use the following format below in the
+                                                table, click download format</small>
+                                            <div class="text text-danger mt-2 d-none" id="error"></div>
                                         </div>
-                                        <button class="btn btn-success mt-3 float-end" type="submit">Import</button>
+                                        <button class="btn btn-success mt-3 float-end" id="importBtn">Import</button>
+
                                     </form>
-                                    <a href="{{ asset('template/employee.csv') }}"
-                                        class="btn btn-primary mt-3 float-end mx-2" download>Download Format</a>
+                                    <button class="btn btn-primary mt-3 float-end mx-2" id="downloadCsv">Download
+                                        Format</button>
                                     <br />
                                 </div>
                             </div>
@@ -74,27 +70,9 @@
                                                 <th scope="col">Actions</th>
                                             </tr>
                                         </thead>
-                                        <tbody>
-                                            @if ($data != '')
-                                                @foreach ($data as $key => $row)
-                                                    <tr>
-                                                        <td>{{ $data[$key][0] }}</td>
-                                                        <td>{{ $data[$key][1] }}</td>
-                                                        <td>{{ $data[$key][2] }}</td>
-                                                        <td>{{ $data[$key][3] }}</td>
-                                                        <td>{{ $data[$key][4] }}</td>
-                                                        <td scope="row">
-                                                            <a class="btn btn-primary" target="_blank"
-                                                                href="id-template/{{ $data[$key][0] }}/{{ $data[$key][1] }}/{{ $data[$key][2] }}/{{ $data[$key][3] }}/{{ $data[$key][4] }}"
-                                                                role="button">Generate</a>
-                                                        </td>
-                                                    </tr>
-                                                @endforeach
-                                            @endif
-                                        </tbody>
+                                        <tbody></tbody>
                                     </table>
                                 </div>
-
                             </div>
                         </div>
                     </div>
@@ -105,15 +83,4 @@
 </body>
 
 </html>
-
-<script>
-    $(window).on("load", () => {
-        $("#loading").fadeOut('slow');
-        $('#content').removeClass('d-none');
-    });
-
-    $(document).ready(function() {
-        $('#content').fadeIn('slow');
-        $('#records').DataTable();
-    });
-</script>
+@include('components.home_form')
