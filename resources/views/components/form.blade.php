@@ -27,6 +27,7 @@
         syncFormat: 'PNG',
         background: 'transparent',
         color: '#FFFFFF', // #000000
+        thickness: 4,
         change: function(event, ui) {
             $('#sig_error').html("");
         }

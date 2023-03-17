@@ -40,14 +40,11 @@ class PdfController extends Controller
 
         //Image
 
-        // $this->fpdf->Image($profile, 5.5, 18, 45, 35); //new
+        // $this->fpdf->Image($profile, 5.5, 17.8, 45, 35); //new
 
-
-        $this->fpdf->Image($profile, -5, 17, 60, 50);
+        $this->fpdf->Image($profile, 4.5, 17, 45, 35);
 
         $this->fpdf->Image($imageFront, 0, 0, pageWidth, pageHeight);
-
-
 
 
         //ID
@@ -77,7 +74,7 @@ class PdfController extends Controller
         $this->fpdf->SetFillColor(255, 255, 255);
 
         // $this->fpdf->Image($signature, 18, 67, 20, 20);
-        $this->fpdf->Image($signature, 10, 69, 35, 10);
+        $this->fpdf->Image($signature, 12.5, 67, 0, 10);
         $this->fpdf->SetFont($fontStyle, '', 12);
 
         // Back Template Of ID
