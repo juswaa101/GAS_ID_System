@@ -49,6 +49,7 @@
                         </div>
                     </div>
                     <form id="idForm">
+                        <input type="hidden" value="0" name="form_position" id="form_position">
                         {{-- SIGNATURE --}}
                         <div class="container" id="signature_form">
                             <div class="row">

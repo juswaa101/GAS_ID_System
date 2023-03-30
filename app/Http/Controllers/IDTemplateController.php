@@ -22,37 +22,81 @@ class IDTemplateController extends Controller
 
     public function upload(Request $request)
     {
-        try {
-            $validate = Validator::make($request->all(), [
-                'employee_id' => 'required|numeric',
-                'designate' => 'required',
-                'name' => 'required',
-                'font_style' => 'required',
-                'font_size' => 'required',
-                'person_emergency' => 'required',
-                'contact_person' => 'required|numeric|digits:11|starts_with:09|bail',
-                'signature' => 'required',
-                'image' => 'required'
-            ]);
+        if($request->get("form_position") == "0"){
+            try {
+                $validate = Validator::make($request->all(), [
+                    'employee_id' => 'required|numeric',
+                    'designate' => 'required',
+                    'name' => 'required',
+                    'person_emergency' => 'required',
+                    'contact_person' => 'required|numeric|digits:11|starts_with:09|bail',
+                ]);
 
-            if ($validate->fails()) {
-                return response()->json(['status' => 400, 'error' => $validate->getMessageBag()]);
-            } else {
-                try {
-                    // upload signature from textarea after saving
-                    $this->uploadSignature($request);
-
-                    // upload photo from camera after saving
-                    $this->uploadCamera($request);
-
-                    return response()->json(['status' => 200, 'msg' => 'Uploaded Successfully!']);
-                } catch (\Exception $e) {
-                    abort(500, 'Something Went Wrong');
+                if ($validate->fails()) {
+                    return response()->json(['status' => 400, 'error' => $validate->getMessageBag()]);
+                } else {
+                    try {
+                        return response()->json(['status' => 200, 'msg' => 'Validated', 'pos' => 0]);
+                    } catch (\Exception $e) {
+                        abort(500, 'Something Went Wrong');
+                    }
                 }
+            } catch (\Exception $e) {
+                abort(500, 'Something Went Wrong');
             }
-        } catch (\Exception $e) {
-            abort(500, 'Something Went Wrong');
+        }else if($request->get("form_position") == "1"){
+            try {
+                $validate = Validator::make($request->all(), [
+                    'signature' => 'required',
+                ]);
+
+                if ($validate->fails()) {
+                    return response()->json(['status' => 400, 'error' => $validate->getMessageBag()]);
+                } else {
+                    try {
+                        return response()->json(['status' => 200, 'msg' => 'Validated', 'pos' => 0]);
+                    } catch (\Exception $e) {
+                        abort(500, 'Something Went Wrong');
+                    }
+                }
+            } catch (\Exception $e) {
+                abort(500, 'Something Went Wrong');
+            }
+        }else if($request->get("form_position") == "2"){
+            try {
+                $validate = Validator::make($request->all(), [
+                    'employee_id' => 'required|numeric',
+                    'designate' => 'required',
+                    'name' => 'required',
+                    'font_style' => 'required',
+                    'font_size' => 'required',
+                    'person_emergency' => 'required',
+                    'contact_person' => 'required|numeric|digits:11|starts_with:09|bail',
+                    'signature' => 'required',
+                    'image' => 'required'
+                ]);
+
+                if ($validate->fails()) {
+                    return response()->json(['status' => 400, 'error' => $validate->getMessageBag()]);
+                } else {
+                    try {
+                        // upload signature from textarea after saving
+                        $this->uploadSignature($request);
+
+                        // upload photo from camera after saving
+                        $this->uploadCamera($request);
+
+                        return response()->json(['status' => 200, 'msg' => 'Uploaded Successfully!']);
+                    } catch (\Exception $e) {
+                        abort(500, 'Something Went Wrong');
+                    }
+                }
+            } catch (\Exception $e) {
+                abort(500, 'Something Went Wrong');
+            }
         }
+
+
     }
 
     public function uploadCamera($request)
@@ -81,4 +125,5 @@ class IDTemplateController extends Controller
         $file = $folderPath . $request->employee_id . '.' . $image_type;
         file_put_contents($file, $image_base64);
     }
+
 }

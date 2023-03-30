@@ -39,7 +39,9 @@ class PdfController extends Controller
         $this->fpdf->AddPage("P", [pageWidth, pageHeight]);
 
         //Image
-        $this->fpdf->Image($profile, 5.5, 18, 45, 35); //new
+        if (file_exists($profile)) {
+            $this->fpdf->Image($profile, 5.5, 16.7, 45, 35); //new
+        }
         // $this->fpdf->Image($profile, -5, 17, 60, 50);
         $this->fpdf->Image($imageFront, 0, 0, pageWidth, pageHeight);
 
@@ -58,19 +60,19 @@ class PdfController extends Controller
 
         //Designation
         $check_designation = strtolower($designation);
-        if ($check_designation != "data entry specialist") {
+        if ($check_designation != "customer service representative" && $check_designation != "data entry specialist") {
             $this->fpdf->SetFont($fontStyle, '', $this->setFontSize(mb_strlen($fullName)) - 1);
             $this->fpdf->SetTextColor(255, 255, 255);
             $this->fpdf->SetY(60);
             $this->fpdf->SetX(0);
-            $this->fpdf->Cell(pageWidth, 5, $designation, 0, 0, 'C');
+            $this->fpdf->Cell(pageWidth, 5, strtoupper($designation), 0, 0, 'C');
         }
 
         //Signature
         $this->fpdf->SetFillColor(255, 255, 255);
-
-        // $this->fpdf->Image($signature, 18, 67, 20, 20);
-        $this->fpdf->Image($signature, 10, 69, 35, 10);
+        if (file_exists($signature)) {
+            $this->fpdf->Image($signature, 11, 67.35, 0, 12);
+        }
         $this->fpdf->SetFont($fontStyle, '', 12);
 
         // Back Template Of ID
@@ -94,7 +96,8 @@ class PdfController extends Controller
         $this->fpdf->SetTextColor(29, 85, 108);
         $this->fpdf->SetY(9);
         $this->fpdf->SetX(0);
-        $this->fpdf->Cell(pageWidth, 6, $contactNumber, 0, 0, 'C');
+        $format_contactNumber = substr($contactNumber, 0, 4)."-".substr($contactNumber, 4, 3)."-".substr($contactNumber,7);
+        $this->fpdf->Cell(pageWidth, 6, $format_contactNumber, 0, 0, 'C');
 
         return redirect()->to($this->fpdf->Output());
     }

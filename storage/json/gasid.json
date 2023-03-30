@@ -1,0 +1,83 @@
+{
+    "202303287851" :
+        {
+            "employee_id" : "202303287851",
+            "name" : "VIRGINIA M. CORPUZ",
+            "designation" : "Data Entry Specialist",
+            "contact_person" : "JIMMY CORPUZ",
+            "contact_person_number" : "0915-588-6095",
+            "profile" : "upload/profile/202303287851.jpeg",
+            "signature" : "upload/e-signature/202303287851.png",
+            "created_at": "2023-03-29 02:50:31"
+        }
+    ,
+    "202303287852" :
+        {
+            "employee_id" : "202303287852",
+            "name" : "DALE EIREANN B. ROMERO",
+            "designation" : "Data Entry Specialist",
+            "contact_person" : "JOCELYN ROMERO",
+            "contact_person_number" : "0949-366-2807",
+            "profile" : "upload/profile/202303287852.jpeg",
+            "signature" : "upload/e-signature/202303287852.png",
+            "created_at": "2023-03-29 02:50:32"
+        }
+    ,
+    "202303287853" :
+        {
+            "employee_id" : "202303287853",
+            "name" : "ADRIAN NIEVA",
+            "designation" : "Data Entry Specialist",
+            "contact_person" : "SOFIA NIEVA",
+            "contact_person_number" : "0976-186-5788",
+            "profile" : "upload/profile/202303287853.jpeg",
+            "signature" : "upload/e-signature/202303287853.png",
+            "created_at": "2023-03-29 02:50:33"
+        }
+    ,
+    "202303287855" :
+        {
+            "employee_id" : "202303287855",
+            "name" : "FRANK C. SAMDAO",
+            "designation" : "Data Entry Specialist",
+            "contact_person" : "FRANK SAMDAO SR.",
+            "contact_person_number" : "0950-482-3892",
+            "profile" : "upload/profile/202303287855.jpeg",
+            "signature" : "upload/e-signature/202303287855.png",
+            "created_at": "2023-03-29 02:50:35"
+        },
+    "202303287857" :
+    {
+        "employee_id" : "202303287857",
+        "name" : "JOSHUA BELTRAN",
+        "designation" : "Data Entry Specialist",
+        "contact_person" : "ROLLAND BELTRAN",
+        "contact_person_number" : "0967-993-5437",
+        "profile" : "upload/profile/202303287857.jpeg",
+        "signature" : "upload/e-signature/202303287857.png",
+        "created_at": "2023-03-29 02:50:37"
+    },
+    "202303287858" :
+    {
+        "employee_id" : "202303287858",
+        "name" : "BABY ARMY C. LOGDAT",
+        "designation" : "Data Entry Specialist",
+        "contact_person" : "MINERVA LOGDAT",
+        "contact_person_number" : "0999-445-9618",
+        "profile" : "upload/profile/202303287858.jpeg",
+        "signature" : "upload/e-signature/202303287858.png",
+        "created_at": "2023-03-29 02:50:38"
+    },
+    "202303287854" :
+    {
+        "employee_id" : "202303287854",
+        "name" : "KATHY-REN G. BUSIG",
+        "designation" : "Data Entry Specialist",
+        "contact_person" : "MARICEL L. PAJARO",
+        "contact_person_number" : "0967-784-6271",
+        "profile" : "upload/profile/202303287854.jpeg",
+        "signature" : "upload/e-signature/202303287854.png",
+        "created_at": "2023-03-29 03:59:38"
+    }
+
+}
