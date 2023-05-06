@@ -21,45 +21,14 @@
         </div>
         <div class="row">
             <div class="col-xl-12 mx-auto mt-5 mb-3">
-                {{-- <h1 class="text-light text-center">IMPORT EMPLOYEE RECORD</h1> --}}
+                <h1 class="text-light text-center">MASS GENERATE EMPLOYEE ID</h1>
                 <div class="card p-5">
-                    {{-- <div class="card-body">
-                        @if ($message = Session::get('success'))
-                            <div class="alert alert-success alert-dismissible fade show" role="alert">
-                                <button type="button" class="btn-close" data-bs-dismiss="alert"
-                                    aria-label="close"></button>
-                                <strong>{{ $message }}</strong>
-                            </div>
-                        @endif
-                    </div> --}}
-                    {{-- <div class="container">
-                        <div class="row">
-                            <div class="col-md-6 mx-auto">
-                                <div class="col-12">
-                                    <form id="importCsv">
-                                        <div class="mb-3">
-                                            <label for="" class="form-label">Import File</label><br />
-                                            <input type="file" class="form-control" name="upload_file">
-                                            <small class="text-muted mt-2">Note: Use the following format below in the
-                                                table, click download format</small>
-                                            <div class="text text-danger mt-2 d-none" id="error"></div>
-                                        </div>
-                                        <button class="btn btn-success mt-3 float-end" id="importBtn">Import</button>
-
-                                    </form>
-                                    <button class="btn btn-primary mt-3 float-end mx-2" id="downloadCsv">Download
-                                        Format</button>
-                                    <br />
-                                </div>
-                            </div>
-                        </div>
-                    </div> --}}
-
                     <div class="container">
                         <div class="row">
-                            <form action="{{ route("mass-generate.generatePDF") }}" method="post">
+                            <form action="{{ route('mass-generate.generatePDF') }}" method="post">
                                 @csrf
                                 <div class="col-sm-12">
+                                    <span id="note" class="mx-2 text-danger"></span>
                                     <div class="table-responsive m-3 border p-3">
                                         <table class="table my-3" id="records">
                                             <thead>
@@ -75,15 +44,14 @@
                                                 </tr>
                                             </thead>
                                             <tbody></tbody>
-
                                         </table>
                                     </div>
                                 </div>
                                 <div class="col-sm-12">
-                                    <button class="btn btn-success" type="submit">Generate</button>
+                                    <button class="btn btn-success" type="submit" id="generate">Generate</button>
+                                    <button class="btn btn-secondary" type="button" id="back">Cancel</button>
                                 </div>
                             </form>
-
                         </div>
                     </div>
                 </div>
@@ -102,7 +70,9 @@
             $(document).ready(function() {
                 $('#content').fadeIn('slow');
                 let tableName = $('#records').DataTable({
-                    order: [[5, 'desc']],
+                    order: [
+                        [6, 'desc']
+                    ],
                 });
 
                 $.ajax({
@@ -111,17 +81,22 @@
                     url: "/getGASID",
                     data: "",
                     dataType: "JSON",
-                    success: function (data) {
-                        // console.log(data);
-                        $.map(data.data, function(record){
-                            console.log(record.employee_id);
-                            const tr = $(
-                                "<tr>" +
+                    success: function(data) {
+                        if (data.data.length === 0 || typeof data.data === "undefined" || typeof data
+                            .data === null) {
+                                $('#note').html('&nbsp; <i class="fa fa-warning"></i>&nbsp; No existing record yet to generate!');
+                            $('#generate').prop('disabled', true);
+                        } else {
+                            $('#generate').prop('disabled', false);
+                            $.map(data.data, function(record) {
+                                const tr = $(
+                                    "<tr>" +
                                     "<td scope=\"row\">" +
 
-                                        "<div class=\"form-check\"\>"+
-                                            "<input class=\"form-check-input\" name=\"checked[]\" type=\"checkbox\" value=\""+ record.employee_id +"\" id=\"\"\>"+
-                                        "</div>"+
+                                    "<div class=\"form-check\"\>" +
+                                    "<input class=\"form-check-input\" name=\"checked[]\" type=\"checkbox\" value=\"" +
+                                    record.employee_id + "\" id=\"\"\>" +
+                                    "</div>" +
                                     "</td >" +
                                     "<td>" + record.employee_id + "</td>" +
                                     "<td>" + record.name + "</td>" +
@@ -129,21 +104,30 @@
                                     "<td>" + record.contact_person + "</td>" +
                                     "<td>" + record.contact_person_number + "</td>" +
                                     "<td>" + record.created_at + "</td>" +
-                                "</tr>"
-                            );
-                            tableName.row.add(tr[0]).draw();
-                        });
-                        // $.map(data.d, function (product) {
-                        //     $('<tr> <td>' + product.Name + '</td> <td>' + product.ProductNumber + ' </td> <td>' + product.SafetyStockLevel + ' </td> <td>' + product.ReorderPoint + ' </td></tr>').appendTo(".tblData");
-                        // });
+                                    "</tr>"
+                                );
+                                tableName.row.add(tr[0]).draw();
+                            });
+                        }
                     },
-                    error: function (response) {
+                    error: function(response) {
                         new swal({
                             title: 'Error',
                             text: 'Something went wrong',
                             icon: 'error'
                         });
                     }
+                });
+
+                $('#back').click(function(e) {
+                    e.preventDefault();
+                    $('#back').prop('disabled', true);
+                    $('#back').html("<i class='fa fa-spinner fa-spin'></i> Loading");
+                    setTimeout(() => {
+                        $('#back').prop('disabled', false);
+                        $('#back').html("Cancel");
+                    }, 750);
+                    location.href = "/";
                 });
             });
         </script>

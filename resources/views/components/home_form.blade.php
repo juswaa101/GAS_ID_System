@@ -83,5 +83,32 @@
                 }
             });
         });
+
+        $('#massGenerate').click(function(e) {
+            e.preventDefault();
+            $('#massGenerate').prop('disabled', true);
+            $('#massGenerate').html("<i class='fa fa-spinner fa-spin'></i> Loading");
+            setTimeout(() => {
+                $('#massGenerate').prop('disabled', false);
+                $('#massGenerate').html("Mass Generate");
+            }, 500);
+            setTimeout(() => {
+                window.open('/mass-generate', '_blank')
+            }, 500);
+
+        });
+
+        $('#fillUpForm').click(function(e) {
+            e.preventDefault();
+            $('#fillUpForm').prop('disabled', true);
+            $('#fillUpForm').html("<i class='fa fa-spinner fa-spin'></i> Loading");
+            setTimeout(() => {
+                $('#fillUpForm').prop('disabled', false);
+                $('#fillUpForm').html("Fill Up Without CSV");
+            }, 500);
+            setTimeout(() => {
+                window.open('/id-template', '_blank')
+            }, 500);
+        });
     });
 </script>

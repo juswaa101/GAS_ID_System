@@ -77,52 +77,77 @@
 
                         {{-- FORM --}}
                         <div class="container current" id="emp_form">
-                            <div class="row">
-                                <div class="col-md-6 mx-auto mb-3">
-                                    <label for="" class="form-label">ID Number<span
-                                            class="text-danger">*</span></label>
-                                    <div class="text text-danger" id="id_number_error"></div>
-                                    <input type="text" class="form-control" name="employee_id" id="employee_id"
-                                        placeholder="Employee ID" value="{{ request()->segment(2) }}">
+                            <div class="row mb-3">
+                                <div class="col-md-6 mx-auto">
+                                    <hr>
+                                    <div class="row mb-3">
+                                        <div class="col-4">
+                                            <label for="" class="form-label fw-bold">Personal Details</label>
+                                        </div>
+                                        <div class="col-8 mx-auto">
+                                            <label for="" class="form-label">ID Number<span
+                                                    class="text-danger">*</span></label>
+                                            <div class="text text-danger" id="id_number_error"></div>
+                                            <input type="text" class="form-control" name="employee_id"
+                                                id="employee_id" placeholder="20230101####"
+                                                value="{{ $id }}">
+                                        </div>
+                                    </div>
+                                    <div class="row mb-3">
+                                        <div class="col-4"></div>
+                                        <div class="col-8 mx-auto">
+                                            <label for="" class="form-label">Name<span
+                                                    class="text-danger">*</span> (FN MI. LN)</label>
+                                            <div class="text text-danger" id="name_error"></div>
+                                            <input type="text" class="form-control" name="name" id="name"
+                                                value="{{ $name }}" placeholder="JUAN D. DELA CRUZ">
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-4"></div>
+                                        <div class="col-8 mx-auto">
+                                            <label for="" class="form-label">Designation</label>
+                                            <div class="text text-danger" id="designate_error"></div>
+                                            <input type="text" class="form-control" name="designate"
+                                                id="designate" value="{{ $designation }}"
+                                                placeholder="DATA ENTRY SPECIALIST">
+                                        </div>
+                                    </div>
                                 </div>
+
+
                             </div>
-                            <div class="row">
-                                <div class="col-md-6 mx-auto mb-3">
-                                    <label for="" class="form-label">Name<span
-                                            class="text-danger">*</span></label>
-                                    <div class="text text-danger" id="name_error"></div>
-                                    <input type="text" class="form-control" name="name" id="name"
-                                        value="{{ request()->segment(3) }}" placeholder="Full Name">
+                            <div class="row mb-3">
+                                <div class="col-md-6 mx-auto">
+                                    <hr>
+                                    <div class="row mb-3">
+                                        <div class="col-4">
+                                            <label for="" class="form-label fw-bold">Contact Person in-case of
+                                                Emergency</label>
+                                        </div>
+                                        <div class="col-8 mx-auto">
+                                            <label for="" class="form-label">Name<span
+                                                    class="text-danger">*</span></label>
+                                            <div class="text text-danger" id="emer_error"></div>
+                                            <input type="text" class="form-control" name="person_emergency"
+                                                id="person_emergency" placeholder="JUANA C. DELA CRUZ"
+                                                value="{{ $contact_name }}">
+                                        </div>
+                                    </div>
+                                    <div class="row mb-3">
+                                        <div class="col-4"></div>
+                                        <div class="col-8 mx-auto">
+                                            <label for="" class="form-label">Contact Number<span
+                                                    class="text-danger">*</span></label>
+                                            <div class="text text-danger" id="contact_error"></div>
+                                            <input type="text" class="form-control" name="contact_person"
+                                                id="contact_person" placeholder="09123456789"
+                                                value="{{ $contact_number }}">
+                                        </div>
+                                    </div>
                                 </div>
-                            </div>
-                            <div class="row">
-                                <div class="col-md-6 mx-auto mb-3">
-                                    <label for="" class="form-label">Designate<span
-                                            class="text-danger">*</span></label>
-                                    <div class="text text-danger" id="designate_error"></div>
-                                    <input type="text" class="form-control" name="designate" id="designate"
-                                        value="{{ request()->segment(4) }}" placeholder="Designate/Position">
-                                </div>
-                            </div>
-                            <div class="row">
-                                <div class="col-md-6 mx-auto mb-3">
-                                    <label for="" class="form-label">Person in-case of
-                                        emergency<span class="text-danger">*</span></label>
-                                    <div class="text text-danger" id="emer_error"></div>
-                                    <input type="text" class="form-control" name="person_emergency"
-                                        id="person_emergency" placeholder="Emergency Person"
-                                        value="{{ request()->segment(5) }}">
-                                </div>
-                            </div>
-                            <div class="row">
-                                <div class="col-md-6 mx-auto mb-3">
-                                    <label for="" class="form-label">Contact Person<span
-                                            class="text-danger">*</span></label>
-                                    <div class="text text-danger" id="contact_error"></div>
-                                    <input type="text" class="form-control" name="contact_person"
-                                        id="contact_person" placeholder="Contact Person"
-                                        value="{{ request()->segment(6) }}">
-                                </div>
+
+
                             </div>
                         </div>
                         {{-- FORM --}}

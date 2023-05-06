@@ -23,7 +23,7 @@ class MassGenController extends Controller
     public function readJSON(Request $request)
     {
         try {
-            $path = storage_path() . "/json/gasid.json";
+            $path = storage_path() . "/app/json/gasid.json";
 
             // $data = json_decode(file_get_contents($path), true);
             $data = json_decode(file_get_contents($path));
@@ -33,24 +33,22 @@ class MassGenController extends Controller
         }
     }
 
-    public function generatePDF(Request $request){
-
-
-
+    public function generatePDF(Request $request)
+    {
 
         define("pageWidth", "54.2378");
         define("pageHeight", "86.1");
         $this->fpdf->AddFont('calibri light', '', 'calibril.php');
 
-        $path = storage_path() . "/json/gasid.json";
+        $path = storage_path() . "/app/json/gasid.json";
 
         $data = json_decode(file_get_contents($path), true);
 
         $selected = $request->get("checked");
 
-        foreach($selected as $key_selected => $select){
-            foreach($data as $key_data => $record){
-                if($record["employee_id"] == $select){
+        foreach ($selected as $key_selected => $select) {
+            foreach ($data as $key_data => $record) {
+                if ($record["employee_id"] == $select) {
                     $signature = public_path($record["signature"]);
                     $profile = public_path($record["profile"]);
 
@@ -90,7 +88,7 @@ class MassGenController extends Controller
 
                     //Designation
                     $check_designation = strtolower($designation);
-                    if ($check_designation != "data entry specialist") {
+                    if ($check_designation != "customer service representative" && $check_designation != "data entry specialist") {
                         $this->fpdf->SetFont($fontStyle, '', $this->setFontSize(mb_strlen($fullName)) - 1);
                         $this->fpdf->SetTextColor(255, 255, 255);
                         $this->fpdf->SetY(60);
@@ -116,7 +114,7 @@ class MassGenController extends Controller
                     $this->fpdf->Ln(15);
 
                     //Contact Person
-                    $this->fpdf->SetFont($fontStyle, '', $this->setFontSize_back(mb_strlen($contactPerson)));
+                    $this->fpdf->SetFont($fontStyle, '', 9);
                     $this->fpdf->SetTextColor(29, 85, 108);
 
                     $this->fpdf->SetY(6);
@@ -124,7 +122,7 @@ class MassGenController extends Controller
                     $this->fpdf->Cell(pageWidth, 5, strtoupper($contactPerson), 0, 0, 'C');
 
                     //Contact Number
-                    $this->fpdf->SetFont($fontStyle, '', $this->setFontSize_back(mb_strlen($contactPerson)));
+                    $this->fpdf->SetFont($fontStyle, '', 8);
                     $this->fpdf->SetTextColor(29, 85, 108);
                     $this->fpdf->SetY(9);
                     $this->fpdf->SetX(0);
@@ -153,12 +151,12 @@ class MassGenController extends Controller
 
     public function setFontSize_back(int $length)
     {
-        if ($length >= 20 && $length <= 24) {
-            return 10;
-        } elseif ($length >= 25 && $length <= 29) {
+        if ($length >= 20 && $length <= 30) {
             return 8;
-        } elseif ($length >= 30) {
+        } elseif ($length >= 31 && $length <= 40) {
             return 7;
+        } elseif ($length >= 41) {
+            return 6;
         } else {
             return 9;
         }
