@@ -20,13 +20,12 @@ use Illuminate\Support\Facades\Route;
 
 Route::get('/', [homeController::class, 'index']);
 
-
 Route::post('/', [homeController::class, 'importFile'])->name('csv.import');
 Route::get('/pdf', [PdfController::class, 'index'])->name('generate.pdf');
 
 
 // ID Template Routes
-Route::get('/id-template/{id}/{name}/{designate}/{contact_person}/{contact_number}', [IDTemplateController::class, 'getIDTemplate']);
+Route::get('/id-template/{id?}/{name?}/{designate?}/{contact_person?}/{contact_number?}', [IDTemplateController::class, 'getIDTemplate']);
 Route::post('/id-template', [IDTemplateController::class, 'upload'])->name('upload.template');
 
 Route::get('/mass-generate', [MassGenController::class, 'index']);

@@ -34,7 +34,7 @@
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 <link rel="stylesheet" href="{{ asset('css/stepper.css') }}">
 
-<link rel="icon" type="image/x-icon" href="{{ asset('images/global_icon.png') }}"></link>
+<link rel="icon" type="image/x-icon" href="{{ asset('images/global_icon.png') }}" />
 
 {{-- <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script> --}}
 <link rel="stylesheet" href="https://cdn.datatables.net/1.13.3/css/jquery.dataTables.min.css" />

@@ -28,11 +28,16 @@
                                         <label for="" class="form-label text-danger my-3">Required*</label>
                                         <div class="row">
                                             <div class="col-md-4 mb-3">
+                                                <label for="" class="form-label"
+                                                    aria-describedby="IDNumberHelp">ID Number<span
+                                                        class="text-danger">*</span></label>
+                                                <div id="IDNumberHelp" class="form-text">We'll never share your email
+                                                    with anyone else.</div>
                                                 <label for="" class="form-label">ID Number<span
                                                         class="text-danger">*</span></label>
                                                 <div class="text text-danger" id="id_number_error"></div>
                                                 <input type="text" class="form-control" name="employee_id"
-                                                    id="employee_id" placeholder="Employee ID"
+                                                    id="employee_id" placeholder="20230101####"
                                                     value="{{ request()->segment(2) }}">
                                             </div>
 
@@ -73,10 +78,12 @@
 
                                             <div class="col-md-8 mx-auto">
                                                 <div class="mb-3 w-50 mx-auto">
-                                                    <label class="" for="">Signature<span class="text-danger">*</span></label>
+                                                    <label class="" for="">Signature<span
+                                                            class="text-danger">*</span></label>
                                                     <div class="text text-danger" id="sig_error"></div>
                                                     <br />
-                                                    <div id="sig" style="background-color: black; width:100%; height: 150px;">
+                                                    <div id="sig"
+                                                        style="background-color: black; width:100%; height: 150px;">
                                                     </div>
                                                     <br />
                                                     <small class="text-muted">For best use, please use digital pad for
@@ -106,8 +113,7 @@
                                                                                 src="{{ asset('images/circle.png') }}"
                                                                                 alt="" srcset=""
                                                                                 class=""
-                                                                                style="height: 376px; width: 500px;"
-                                                                                >
+                                                                                style="height: 376px; width: 500px;">
 
                                                                         </div>
                                                                         <div>
@@ -161,8 +167,8 @@
                                                             onClick="take_snapshot()" id="snap">
                                                     </div>
                                                     <div class="col-12 text-center">
-                                                        <input type="hidden" name="image" class="image-tag img-fluid"
-                                                            id="image">
+                                                        <input type="hidden" name="image"
+                                                            class="image-tag img-fluid" id="image">
                                                         <div class="col-md-12 text-center mx-auto">
                                                             <div id="results" class="mt-3 w-100">Your captured image
                                                                 will appear
@@ -287,7 +293,8 @@
     function take_snapshot() {
         Webcam.snap(function(data_uri) {
             $(".image-tag").val(data_uri);
-            document.getElementById('results').innerHTML = '<img src="' + data_uri + '" class=\'img-fluid w-50\'/>';
+            document.getElementById('results').innerHTML = '<img src="' + data_uri +
+                '" class=\'img-fluid w-50\'/>';
         });
     }
 
@@ -398,42 +405,55 @@
                                     type: "get",
                                     url: "{{ route('generate.pdf') }}",
                                     data: {
-                                        employee_id: $('#employee_id').val(),
+                                        employee_id: $('#employee_id')
+                                            .val(),
                                         name: $('#name').val(),
                                         designate: $('#designate').val(),
-                                        person_emergency: $('#person_emergency').val(),
-                                        contact_person: $('#contact_person').val(),
+                                        person_emergency: $(
+                                            '#person_emergency').val(),
+                                        contact_person: $('#contact_person')
+                                            .val(),
                                         font_style: $('#font_style').val(),
                                         font_size: $('#font_size').val(),
-                                        sig_path:  "upload/e-signature/" + $('#employee_id').val()+ ".png",
-                                        img_path: "upload/profile/" + $('#employee_id').val()+ ".jpeg",
-                                        // image: $('#image').val(),
-                                        // signature: $('#signature64').val(),
+                                        sig_path: "upload/e-signature/" + $(
+                                                '#employee_id').val() +
+                                            ".png",
+                                        img_path: "upload/profile/" + $(
+                                                '#employee_id').val() +
+                                            ".jpeg",
                                     },
                                     responseType: 'arraybuffer',
                                     success: function(data) {
                                         // clear fields after generating an id
-                                        // window.open(
-                                        //     "/pdf?employee_id=" + $('#employee_id').val() +
-                                        //     "&name=" + $('#name').val() +
-                                        //     "&designate=" + $('#designate').val() +
-                                        //     "&person_emergency=" + $('#person_emergency').val() +
-                                        //     "&contact_person=" + $('#contact_person').val() +
-                                        //     "&font_style=" + $('#font_style').val() +
-                                        //     "&font_size=" + $('#font_size').val() +
-                                        //     "&image=" + $('#image').val() +
-                                        //     "&signature=" + $('#signature64').val()
-                                        // );
                                         window.open(
-                                            "/pdf?employee_id=" + $('#employee_id').val() +
-                                            "&name=" + $('#name').val() +
-                                            "&designate=" + $('#designate').val() +
-                                            "&person_emergency=" + $('#person_emergency').val() +
-                                            "&contact_person=" + $('#contact_person').val() +
-                                            "&font_style=" + $('#font_style').val() +
-                                            "&font_size=" + $('#font_size').val() +
-                                            "&img_path=" + "upload/profile/" + $('#employee_id').val()+ ".jpeg" +
-                                            "&sig_path=" + "upload/e-signature/" + $('#employee_id').val()+ ".png"
+                                            "/pdf?employee_id=" + $(
+                                                '#employee_id')
+                                            .val() +
+                                            "&name=" + $('#name')
+                                            .val() +
+                                            "&designate=" + $(
+                                                '#designate')
+                                            .val() +
+                                            "&person_emergency=" +
+                                            $('#person_emergency')
+                                            .val() +
+                                            "&contact_person=" + $(
+                                                '#contact_person')
+                                            .val() +
+                                            "&font_style=" + $(
+                                                '#font_style')
+                                            .val() +
+                                            "&font_size=" + $(
+                                                '#font_size')
+                                            .val() +
+                                            "&img_path=" +
+                                            "upload/profile/" + $(
+                                                '#employee_id')
+                                            .val() + ".jpeg" +
+                                            "&sig_path=" +
+                                            "upload/e-signature/" +
+                                            $('#employee_id')
+                                            .val() + ".png"
                                         );
                                     }
                                 });
@@ -441,14 +461,15 @@
                         });
                     }
                 },
-                error: function() {
+                error: function(err) {
+                    console.log(err);
                     $('#generateId').prop('disabled', false);
                     $('#generateId').html("Generate");
                     new swal({
                         title: 'Error',
                         text: 'Something Went Wrong While Generating Your Id... Please Try Again!',
                         icon: 'error'
-                    }).then(() => location.reload());
+                    });;
                 }
             });
         });

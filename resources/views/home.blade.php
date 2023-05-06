@@ -44,12 +44,21 @@
                                                 table, click download format</small>
                                             <div class="text text-danger mt-2 d-none" id="error"></div>
                                         </div>
-                                        <button class="btn btn-success mt-3 float-end" id="importBtn">Import</button>
-
                                     </form>
-                                    <button class="btn btn-primary mt-3 float-end mx-2" id="downloadCsv">Download
-                                        Format</button>
-                                    <br />
+                                    <div class="row">
+                                        <div class="col-md-12 mx-auto">
+                                            <button class="btn btn-primary mt-3 float-end mx-2" id="downloadCsv"
+                                                type="button">Download
+                                                Format</button>
+                                            <button class="btn btn-warning mt-3 mx-2 float-end" id="massGenerate"
+                                                type="button">Mass
+                                                Generate</button>
+                                            <button class="btn btn-secondary mt-3 mx-2 float-end" id="fillUpForm"
+                                                type="button">Fill Up Without CSV</button>
+                                            <button class="btn btn-success mt-3 mx-2 float-end"
+                                                id="importBtn">Import</button>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
                         </div>
