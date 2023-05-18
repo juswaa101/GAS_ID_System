@@ -58,6 +58,8 @@
             </div>
         </div>
         <script>
+
+            let numberOfSelected = 0;
             $(window).on("load", () => {
                 $("#loading").fadeOut('slow');
                 $('#content').removeClass('d-none');
@@ -68,6 +70,9 @@
                 }
             });
             $(document).ready(function() {
+
+                $('#generate').prop('disabled', true);
+
                 $('#content').fadeIn('slow');
                 let tableName = $('#records').DataTable({
                     order: [
@@ -87,15 +92,15 @@
                                 $('#note').html('&nbsp; <i class="fa fa-warning"></i>&nbsp; No existing record yet to generate!');
                             $('#generate').prop('disabled', true);
                         } else {
-                            $('#generate').prop('disabled', false);
+                            // $('#generate').prop('disabled', false);
                             $.map(data.data, function(record) {
                                 const tr = $(
                                     "<tr>" +
                                     "<td scope=\"row\">" +
 
                                     "<div class=\"form-check\"\>" +
-                                    "<input class=\"form-check-input\" name=\"checked[]\" type=\"checkbox\" value=\"" +
-                                    record.employee_id + "\" id=\"\"\>" +
+                                    "<input class=\"form-check-input checkBox\" name=\"checked[]\" type=\"checkbox\" value=\"" +
+                                    record.employee_id + "\" id=\"\"\ onclick='selectRecord(this.checked);' >" +
                                     "</div>" +
                                     "</td >" +
                                     "<td>" + record.employee_id + "</td>" +
@@ -129,7 +134,32 @@
                     }, 750);
                     location.href = "/";
                 });
+
+
+
+                $('.checkBox').on('change', function (e) {
+                    console.log(e);
+
+                    alert(e);
+                });
+
+
             });
+
+            function selectRecord(params) {
+
+                if(params) numberOfSelected++;
+                else numberOfSelected--;
+
+                if(numberOfSelected>0){
+                    $('#generate').prop('disabled', false);
+                }else{
+                    $('#generate').prop('disabled', true);
+                }
+
+            }
+
+
         </script>
 
     </div>

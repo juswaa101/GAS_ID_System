@@ -10,7 +10,7 @@ use Illuminate\Support\Facades\Storage;
 class IDTemplateController extends Controller
 {
     //
-    public function getIDTemplate(Request $request, $id = "", $name = "", $designation = "DATA ENTRY SPECIALIST", $contact_name = "", $contact_number = "")
+    public function getIDTemplate(Request $request, $id = "", $name = "", $designation = "", $contact_name = "", $contact_number = "")
     {
         $params = [
             "id" => $id,
@@ -33,7 +33,6 @@ class IDTemplateController extends Controller
             try {
                 $validate = Validator::make($request->all(), [
                     'employee_id' => 'required|numeric',
-                    'designate' => 'required',
                     'name' => 'required',
                     'person_emergency' => 'required',
                     'contact_person' => 'required|numeric|digits:11|starts_with:09|bail',
@@ -75,7 +74,6 @@ class IDTemplateController extends Controller
             try {
                 $validate = Validator::make($request->all(), [
                     'employee_id' => 'required|numeric',
-                    'designate' => 'required',
                     'name' => 'required',
                     'font_style' => 'required',
                     'font_size' => 'required',
